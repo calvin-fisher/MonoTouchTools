@@ -16,19 +16,24 @@ namespace MonoTouchTools
     /// </remarks>        
     public class ToastView : NSObject
     {
-        
-        ToastSettings theSettings = new ToastSettings ();
-        
-        private string text = null;
-        UIView view;
-        public ToastView (string Text, int durationMilliseonds)
+        public string Text { get; protected set; }
+        public UITextAlignment TextAlignment { get; set; }
+
+        protected ToastSettings theSettings = new ToastSettings ();
+        protected UIView view;
+        protected int offsetLeft = 0;
+        protected int offsetTop = 0;
+
+        public ToastView (string text)
         {
-            text = Text;
+            Text = text;
+            TextAlignment = UITextAlignment.Center; 
+        }
+        public ToastView (string text, int durationMilliseonds)
+            : this(text)
+        {
             theSettings.Duration = durationMilliseonds;
         }
-        
-        int offsetLeft = 0;
-        int offsetTop = 0;
         public ToastView SetGravity (ToastGravity gravity, int OffSetLeft, int OffSetTop)
         {
             theSettings.Gravity = gravity;
@@ -47,19 +52,19 @@ namespace MonoTouchTools
         {
             UIButton v = UIButton.FromType (UIButtonType.Custom);
             view = v;
-            
+
             UIFont font = UIFont.SystemFontOfSize (16);
-            SizeF textSize = view.StringSize (text, font, new SizeF (280, 60));
+            SizeF textSize = view.StringSize (Text, font, new SizeF (280, 60));
             
             UILabel label = new UILabel (new RectangleF (0, 0, textSize.Width + 5, textSize.Height + 5));
             label.BackgroundColor = UIColor.Clear;
             label.TextColor = UIColor.White;
             label.Font = font;
-            label.Text = text;
+            label.Text = Text;
             label.Lines = 0;
             label.ShadowColor = UIColor.DarkGray;
             label.ShadowOffset = new SizeF (1, 1);
-            
+            label.TextAlignment  = TextAlignment;
             
             v.Frame = new RectangleF (0, 0, textSize.Width + 10, textSize.Height + 10);
             label.Center = new PointF (v.Frame.Size.Width / 2, v.Frame.Height / 2);
