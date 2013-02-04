@@ -45,5 +45,6 @@
     <Compile Include="PinEntryElement.cs" />
     <Compile Include="ToastView.cs" />
     <Compile Include="EntryElementWorkaround.cs" />
+    <Compile Include="Keychain.cs" />
   </ItemGroup>
 </Project>
